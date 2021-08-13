@@ -2,37 +2,229 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.grid {
+  position: absolute;
+  left: 25px;
+  align-content: flex-start;
+  margin-top: 35px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.cur-row {
+  height: 28px;
+}
+
+.node {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgb(175, 216, 248);
+  display: inline-block;
+}
+
+.node-start {
+  background-color: red;
+}
+
+.node-finish {
+  background-color: green;
+}
+
+.node-wall {
+  background-color: rgb(2, 36, 51);
+  border: 1px solid rgb(2, 36, 51);
+  display: inline-block;
+}
+
+.node-visited {
+  animation-name: visitedAnimation;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+.node-animate-wall {
+  display: inline-block;
+  animation-name: wallAnimation;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+.node-path {
+  animation-name: shortestPath;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes wallAnimation {
+  0% {
+    transform: scale(0.3);
+    background-color: rgb(2, 36, 51);
+    border-radius: 30%;
+  }
+
+  50% {
+    transform: scale(0.5);
+    background-color: rgb(2, 36, 51);
+    border-radius: 20%;
+  }
+
+  75% {
+    transform: scale(0.7);
+    background-color: rgb(2, 36, 51);
+    border-radius: 10%;
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgb(2, 36, 51);
+    border: 1px solid rgb(2, 36, 51);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+@keyframes startAnimation {
+  0% {
+    transform: scale(0.3);
+    background-color: red;
+    border-radius: 100%;
+  }
+
+  50% {
+    transform: scale(0.5);
+    background-color: red;
+    border-radius: 75%;
+  }
+
+  75% {
+    transform: scale(0.7);
+    background-color: red;
+    border-radius: 50%;
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: red;
+  }
+}
+
+@keyframes visitedAnimation {
+  0% {
+    transform: scale(0.3);
+    background-color: rgba(0, 0, 66, 0.75);
+    border-radius: 100%;
+  }
+
+  50% {
+    transform: scale(0.5);
+    background-color: rgba(17, 104, 217, 0.75);
+    border-radius: 75%;
+  }
+
+  75% {
+    transform: scale(0.7);
+    background-color: rgba(0, 217, 159, 0.75);
+    border-radius: 50%;
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgba(0, 190, 218, 0.75);
+  }
+}
+
+@keyframes shortestPath {
+  0% {
+    transform: scale(0.3);
+    background-color: rgb(255, 254, 106);
+    border-radius: 100%;
+  }
+
+  50% {
+    transform: scale(0.5);
+    background-color: rgb(255, 254, 106);
+    border-radius: 75%;
+  }
+
+  75% {
+    transform: scale(0.7);
+    background-color: rgb(255, 254, 106);
+    border-radius: 50%;
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgb(255, 254, 106);
+    border: rgb(255, 254, 106);
+  }
+}
+
+.node-instant-visited {
+  background-color: rgba(0, 190, 218, 0.75);
+}
+
+.node-instant-path {
+  background-color: rgb(255, 254, 106);
+  border: rgb(255, 254, 106);
+}
+
+.navbar {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.navbar-brand {
+  margin-left: 25px;
+}
+
+.navbar .navbar-nav .nav-link {
+  color: #000000;
+  font-size: 1.1em;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+  color: #808080;
+}
+@media only screen and (min-width: 960px) {
+  .dropdown-hover:hover .dropdown-hover-menu {
+    display: block;
+    margin-top: 0;
+  }
+
+  .dropdown-hover:hover .dropdown-toggle::after {
+    border-bottom: 0.3em solid;
+    border-top: 0;
+  }
+}
+
+.navbar-nav > li {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.navbar-nav > li {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+/* .dropdown-hover.show .dropdown-toggle::after {
+  border-bottom: 0.3em solid;
+  border-top: 0;
+} */
+ul.navbar-nav a:hover {
   color: white;
+  font-weight: bold;
+  background-color: green;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.node-info {
+  display: "flex";
+  justify-content: space-around;
+  margin-top: 20px;
 }
