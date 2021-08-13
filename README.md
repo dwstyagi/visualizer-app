@@ -2,7 +2,7 @@
 
 This project gives you basic idea behind how the path searching algorithms works in Graphs. I implemented 2 informed and 3 uninformed searches.
 
-**Informed Searches** - algorithms who were informed where actually is the final node.
+**Informed Searches** - algorithms who were informed where actually is the final node.<br>
 **Uninformed Searches** - Uses brute force techique to find the destination node.
 
 ## Algorithms Used in the Applications
