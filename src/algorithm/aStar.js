@@ -23,7 +23,8 @@ function aStar(grid, startNode, finishNode) {
 
     if (closestNode.finish) return visitedNodes;
 
-    if (closestNode.wall || closestNode.animateWall) continue;
+    if (!closestNode.start && (closestNode.wall || closestNode.animateWall))
+      continue;
     if (closestNode.totalDistance === Infinity) return visitedNodes;
 
     updateClosestNodeNeighbor(newGrid, closestNode, finishNode);

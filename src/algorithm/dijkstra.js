@@ -20,7 +20,8 @@ function dijkstra(grid, startNode) {
 
     if (closestNode.finish) return visitedNodes;
 
-    if (closestNode.wall || closestNode.animateWall) continue;
+    if (!closestNode.start && (closestNode.wall || closestNode.animateWall))
+      continue;
     if (closestNode.distance === Infinity) return visitedNodes;
 
     updateClosestNodeNeighbor(newGrid, closestNode);

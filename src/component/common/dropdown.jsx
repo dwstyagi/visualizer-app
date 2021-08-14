@@ -8,7 +8,6 @@ const Dropdown = ({ label, divider, beforeList, afterList, onSelect }) => {
         href="/#"
         id="navbarDropdown"
         data-toggle="dropdown"
-        aria-haspopup="true"
         aria-expanded="false"
       >
         {label}

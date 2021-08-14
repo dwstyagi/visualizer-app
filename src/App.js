@@ -14,7 +14,7 @@ import { getRecursiveBacktracking } from "./maze/recursiveBacktracking";
 import { getStairMaze } from "./maze/stair";
 import { getRandom } from "./maze/random";
 import { getGrid, getGridWithToggledNode } from "./utils/grid";
-import { getGridWithToggleStartNode } from "./utils/startNode";
+import { getGridWithToggleStartFinishNode } from "./utils/startNode";
 
 class App extends Component {
   state = {
@@ -55,14 +55,49 @@ class App extends Component {
     this.visualizeMaze();
   };
 
-  setNewStartNode = (node) => {
-    const { grid } = this.state;
+  // setNewStartFinishNodeUtil = () => {
+  //   const { prevNode, currNode, grid, isStartNode, isFinishNode } = this.state;
+  //   const newGrid = grid.slice();
+
+  //   if (isStartNode) {
+  //     prevNode.start = false;
+  //     currNode.start = true;
+  //   }
+
+  //   if (isFinishNode) {
+  //     prevNode.finish = false;
+  //     currNode.finish = true;
+  //   }
+
+  //   newGrid[prevNode.row][prevNode.col] = { ...prevNode };
+  //   newGrid[currNode.row][currNode.col] = { ...currNode };
+
+  //   this.setState({ grid: newGrid });
+  // };
+
+  // setNewStartFinishNode = (node) => {
+  //   this.setState(
+  //     { prevNode: this.state.currNode, currNode: node },
+  //     this.setNewStartFinishNodeUtil.bind(this)
+  //   );
+  // };
+
+  setNewStartFinishNode = (node) => {
+    const { grid, isStartNode, isFinishNode } = this.state;
     const newGrid = grid.slice();
 
     this.state.prevNode = { ...this.state.currNode };
     this.state.currNode = { ...node };
-    this.state.prevNode.start = false;
-    this.state.currNode.start = true;
+
+    if (isStartNode) {
+      this.state.prevNode.start = false;
+      this.state.currNode.start = true;
+    }
+
+    if (isFinishNode) {
+      this.state.prevNode.finish = false;
+      this.state.currNode.finish = true;
+    }
 
     newGrid[this.state.currNode.row][this.state.currNode.col] = {
       ...this.state.currNode,
@@ -74,36 +109,16 @@ class App extends Component {
     this.setState({ grid: newGrid });
   };
 
-  setNewFinishNode = (node) => {
-    const newGrid = this.state.grid.slice();
-
-    this.state.prevNode = { ...this.state.currNode };
-    this.state.currNode = { ...node };
-
-    this.state.prevNode.finish = false;
-    this.state.currNode.finish = true;
-
-    newGrid[this.state.prevNode.row][this.state.prevNode.col] =
-      this.state.prevNode;
-    newGrid[this.state.currNode.row][this.state.currNode.col] =
-      this.state.currNode;
-
-    this.setState({ grid: newGrid });
-  };
-
   handleMouseDown = (node) => {
-    const { visualizing, grid, isStartNode } = this.state;
+    const { visualizing, grid, isStartNode, isFinishNode } = this.state;
     let newGrid;
     if (!visualizing) {
       if (node.start) {
-        this.setState({ isStartNode: true });
-        this.state.currNode = node;
-        this.state.currNode = { ...node };
-        newGrid = getGridWithToggleStartNode(grid, node, isStartNode);
+        this.setState({ isStartNode: true, currNode: node });
+        newGrid = getGridWithToggleStartFinishNode(grid, node, isStartNode);
       } else if (node.finish) {
-        this.setState({ isFinishNode: true });
-        this.state.currNode = { ...node };
-        newGrid = getGridWithToggleStartNode(grid, node, isStartNode);
+        this.setState({ isFinishNode: true, currNode: node });
+        newGrid = getGridWithToggleStartFinishNode(grid, node, isFinishNode);
       } else {
         newGrid = getGridWithToggledNode(grid, node);
       }
@@ -118,11 +133,11 @@ class App extends Component {
     if (!visualizing && isMousePressed) {
       if (isStartNode) {
         this.resetNodes();
-        this.setNewStartNode(node);
+        this.setNewStartFinishNode(node);
         if (running) this.instantVisualize();
       } else if (isFinishNode) {
         this.resetNodes();
-        this.setNewFinishNode(node);
+        this.setNewStartFinishNode(node);
         if (running) this.instantVisualize();
       } else {
         const newGrid = getGridWithToggledNode(grid, node);
@@ -178,16 +193,15 @@ class App extends Component {
   instantVisualizeShortestPath = (visitedNodesInShortestPath) => {
     const { grid } = this.state;
 
-    for (let index = 0; index < visitedNodesInShortestPath.length; index++) {
+    console.log("path nodes", visitedNodesInShortestPath);
+    for (
+      let index = 0;
+      index < visitedNodesInShortestPath.length - 1;
+      index++
+    ) {
       const node = visitedNodesInShortestPath[index];
       const { row, col } = node;
-      const newNode = {
-        ...node,
-        instantPath: true,
-        path: false,
-        visited: false,
-        instantVisited: false,
-      };
+      const newNode = { ...node, path: false, instantPath: true };
       grid[row][col] = newNode;
       this.setState({ grid });
     }
@@ -195,7 +209,7 @@ class App extends Component {
 
   instantVisualizeVisitedNodes = (visitedNodes, visitedNodesInShortestPath) => {
     const { grid } = this.state;
-    for (let index = 0; index < visitedNodes.length; index++) {
+    for (let index = 1; index < visitedNodes.length; index++) {
       if (index === visitedNodes.length - 1) {
         this.instantVisualizeShortestPath(visitedNodesInShortestPath);
         return;
@@ -210,16 +224,20 @@ class App extends Component {
   };
 
   instantVisualize = () => {
+    if (!this.state.running) return;
     const startNode = this.getStartNode();
     const finishNode = this.getFinishNode();
 
     this.resetNodes();
 
     const visitedNodes = this.getVisitedNodes(startNode, finishNode);
+
+    if (!visitedNodes.length) return;
+
     let visitedNodesInShortestPath = [];
 
     let lastNode = visitedNodes[visitedNodes.length - 1];
-    console.log(visitedNodes);
+
     if (lastNode.finish) {
       visitedNodesInShortestPath = getVisitedNodesInOrder(lastNode);
     }
@@ -239,7 +257,11 @@ class App extends Component {
       }, index * 75);
     }
 
-    this.setState({ running: true, visualizing: false });
+    this.setState({ running: true });
+
+    setTimeout(() => {
+      this.setState({ visualizing: false });
+    }, visitedNodesInShortestPath.length * 75);
   };
 
   animateVisitedNodes = (visitedNodes, visitedNodesInShortestPath) => {
@@ -264,6 +286,7 @@ class App extends Component {
 
   visualize = () => {
     const { Algo: algo, running } = this.state;
+    let visitedNodes = [];
 
     if (!algo) return;
 
@@ -276,9 +299,9 @@ class App extends Component {
 
     this.setState({ visualizing: true });
 
-    const visitedNodes = this.getVisitedNodes(startNode, finishNode);
+    visitedNodes = this.getVisitedNodes(startNode, finishNode);
 
-    if (!visitedNodes || !visitedNodes.length) {
+    if (!visitedNodes.length) {
       this.setState({ visualizing: false });
       return;
     }
@@ -352,7 +375,6 @@ class App extends Component {
     if (this.state.visualizing) return;
 
     this.setState({ visualizing: true });
-    console.log("visualize", this.state.visualizing);
 
     setTimeout(() => {
       const walls = this.getWallNodes();

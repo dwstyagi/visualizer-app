@@ -20,7 +20,7 @@ function breadthFirstSearch(grid, startNode) {
     const neighbors = getUnvisitedNodeNeighbors(newGrid, node);
     for (const neighbor of neighbors) {
       if (node.finish) return visitedNodes;
-      if (node.wall || node.animateWall) continue;
+      if (!node.start && (node.wall || node.animateWall)) continue;
 
       neighbor.previousNode = node;
       neighbor.visited = true;
