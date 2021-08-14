@@ -9,6 +9,7 @@ const Dropdown = ({ label, divider, beforeList, afterList, onSelect }) => {
         id="navbarDropdown"
         data-toggle="dropdown"
         aria-expanded="false"
+        style={{ color: "white" }}
       >
         {label}
       </a>

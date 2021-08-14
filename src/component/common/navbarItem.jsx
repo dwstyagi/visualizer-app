@@ -13,6 +13,7 @@ const NavbarItem = ({ label, disable, onClick }) => {
         aria-disabled={disable}
         onClick={onClick}
         className={getClassName(disable)}
+        style={{ color: "white" }}
         href="/#"
       >
         {label}
