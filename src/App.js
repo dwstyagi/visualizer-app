@@ -325,7 +325,7 @@ class App extends Component {
       setTimeout(() => {
         grid[row][col] = newNode;
         this.setState({ grid });
-      }, i);
+      }, i * 50);
     }
 
     setTimeout(() => {
