@@ -1,4 +1,4 @@
-function getNewGrid(grid) {
+export function getNewGrid(grid) {
   const nodes = [];
   for (const row of grid) {
     const currentRow = [];
@@ -15,5 +15,3 @@ function getNewGrid(grid) {
   }
   return nodes;
 }
-
-module.exports = { getNewGrid };

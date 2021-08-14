@@ -1,4 +1,4 @@
-function getRecursiveBacktracking(grid) {
+export function getRecursiveBacktracking(grid) {
   const newGrid = getGridWithWalls(grid);
   const nodes = [];
   const stack = [];
@@ -63,7 +63,7 @@ function getNeighbors(grid, node) {
   return neighbors.length ? neighbors[index] : null;
 }
 
-function getGridWithWalls(grid) {
+export function getGridWithWalls(grid) {
   const newGrid = JSON.parse(JSON.stringify(grid));
 
   for (let row = 0; row < newGrid.length; row++) {
@@ -81,5 +81,3 @@ function getGridWithWalls(grid) {
   }
   return newGrid;
 }
-
-module.exports = { getRecursiveBacktracking, getGridWithWalls };

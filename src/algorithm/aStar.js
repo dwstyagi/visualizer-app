@@ -3,7 +3,7 @@ const { getHeuristicDistance } = require("./common/heuristicDistance");
 const { getNewGrid } = require("./common/newGrid");
 const { getUnvisitedNodeNeighbors } = require("./common/unvisitedNodeNeighbor");
 
-function aStar(grid, startNode, finishNode) {
+export function aStar(grid, startNode, finishNode) {
   const newGrid = getNewGrid(grid);
 
   startNode.distance = 0;
@@ -48,5 +48,3 @@ function updateNodesByTotalDistance(nodes) {
     (nodeA, nodeB) => nodeA.totalDistance - nodeB.totalDistance
   );
 }
-
-module.exports = { aStar };

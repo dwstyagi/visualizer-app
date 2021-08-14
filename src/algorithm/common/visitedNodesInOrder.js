@@ -1,4 +1,4 @@
-function getVisitedNodesInOrder(node) {
+export function getVisitedNodesInOrder(node) {
   const visitedNodesInOrder = [];
 
   while (!node.start) {
@@ -7,5 +7,3 @@ function getVisitedNodesInOrder(node) {
   }
   return visitedNodesInOrder;
 }
-
-module.exports = { getVisitedNodesInOrder };

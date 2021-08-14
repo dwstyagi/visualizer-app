@@ -1,4 +1,4 @@
-function getRandom(grid) {
+export function getRandom(grid) {
   let walls = [];
   for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[row].length; col++) {
@@ -13,5 +13,3 @@ function getRandom(grid) {
   console.log(walls);
   return walls;
 }
-
-module.exports = { getRandom };

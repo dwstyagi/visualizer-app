@@ -3,7 +3,7 @@ const { getHeuristicDistance } = require("./common/heuristicDistance");
 const { getNewGrid } = require("./common/newGrid");
 const { getUnvisitedNodeNeighbors } = require("./common/unvisitedNodeNeighbor");
 
-function greedy(grid, startNode, finishNode) {
+export function greedy(grid, startNode, finishNode) {
   const newGrid = getNewGrid(grid);
 
   startNode.distance = 0;
@@ -43,5 +43,3 @@ function updateClosestNodeNeighbor(grid, node, finishNode) {
 function updateNodesByDistance(nodes) {
   return nodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
-
-module.exports = { greedy };

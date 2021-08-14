@@ -1,4 +1,4 @@
-function getStairMaze(grid) {
+export function getStairMaze(grid) {
   const nodes = [];
   let currentX = grid.length - 2;
   let currentY = 1;
@@ -32,5 +32,3 @@ function getStairMaze(grid) {
 
   return nodes;
 }
-
-module.exports = { getStairMaze };

@@ -1,7 +1,7 @@
 const { getNewGrid } = require("./common/newGrid");
 const { getUnvisitedNodeNeighbors } = require("./common/unvisitedNodeNeighbor");
 
-function DepthFirstSearch(grid, startNode) {
+export function DepthFirstSearch(grid, startNode) {
   if (!startNode || startNode.finish) {
     return [];
   }
@@ -30,5 +30,3 @@ function DepthFirstSearch(grid, startNode) {
   }
   return visitedNodes;
 }
-
-module.exports = { DepthFirstSearch };

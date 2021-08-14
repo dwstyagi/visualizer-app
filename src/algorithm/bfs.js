@@ -1,7 +1,7 @@
 const { getNewGrid } = require("./common/newGrid");
 const { getUnvisitedNodeNeighbors } = require("./common/unvisitedNodeNeighbor");
 
-function breadthFirstSearch(grid, startNode) {
+export function breadthFirstSearch(grid, startNode) {
   const newGrid = getNewGrid(grid);
   const visitedNodes = [];
 
@@ -28,5 +28,3 @@ function breadthFirstSearch(grid, startNode) {
     }
   }
 }
-
-module.exports = { breadthFirstSearch };

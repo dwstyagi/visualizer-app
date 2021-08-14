@@ -2,7 +2,7 @@ const { getAllNodes } = require("./common/allNodes");
 const { getNewGrid } = require("./common/newGrid");
 const { getUnvisitedNodeNeighbors } = require("./common/unvisitedNodeNeighbor");
 
-function dijkstra(grid, startNode) {
+export function dijkstra(grid, startNode) {
   const newGrid = getNewGrid(grid);
   const visitedNodes = [];
 
@@ -41,5 +41,3 @@ function updateClosestNodeNeighbor(grid, node) {
 function updateNodesByDistance(nodes) {
   return nodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
-
-module.exports = { dijkstra };

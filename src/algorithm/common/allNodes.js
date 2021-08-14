@@ -1,4 +1,4 @@
-function getAllNodes(grid) {
+export function getAllNodes(grid) {
   const nodes = [];
   for (const row of grid) {
     for (const node of row) {
@@ -7,5 +7,3 @@ function getAllNodes(grid) {
   }
   return nodes;
 }
-
-module.exports = { getAllNodes };

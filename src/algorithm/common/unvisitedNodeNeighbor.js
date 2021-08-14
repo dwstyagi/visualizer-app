@@ -1,4 +1,4 @@
-function getUnvisitedNodeNeighbors(grid, node) {
+export function getUnvisitedNodeNeighbors(grid, node) {
   const { row, col } = node;
   const neighbors = [];
 
@@ -21,5 +21,3 @@ function getUnvisitedNodeNeighbors(grid, node) {
 
   return neighbors && neighbors.filter((neighbor) => !neighbor.visited);
 }
-
-module.exports = { getUnvisitedNodeNeighbors };

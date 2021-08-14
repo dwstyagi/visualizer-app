@@ -1,4 +1,4 @@
-function getGrid(grid, start, end) {
+export function getGrid(grid, start, end) {
   const newGrid = [];
 
   for (let row = 0; row <= grid.rows; row++) {
@@ -31,7 +31,7 @@ function createNode(row, col, start, end) {
   };
 }
 
-function getGridWithToggledNode(grid, node) {
+export function getGridWithToggledNode(grid, node) {
   if (node.start || node.finish) return grid;
 
   const newGrid = grid.slice(0);
@@ -44,8 +44,3 @@ function getGridWithToggledNode(grid, node) {
 
   return newGrid;
 }
-
-module.exports = {
-  getGrid,
-  getGridWithToggledNode,
-};

@@ -1,4 +1,4 @@
-function getLabel(algo) {
+export function getLabel(algo) {
   let label = "Visualize";
   if (algo === "Dijkstra Algorithm") label = "Visualize Dijkstra";
   else if (algo === "Depth First Search") label = "Visualize DFS";
@@ -7,5 +7,3 @@ function getLabel(algo) {
   else if (algo === "A* Search") label = "Visualize A star";
   return label;
 }
-
-module.exports = { getLabel };
