@@ -360,7 +360,7 @@ class App extends Component {
         setTimeout(() => {
           grid[row][col] = newNode;
           this.setState({ grid, visualizing: true });
-        }, i);
+        }, i * 50);
       }
     }, this.speed);
 
