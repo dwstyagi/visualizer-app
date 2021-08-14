@@ -193,7 +193,6 @@ class App extends Component {
   instantVisualizeShortestPath = (visitedNodesInShortestPath) => {
     const { grid } = this.state;
 
-    console.log("path nodes", visitedNodesInShortestPath);
     for (
       let index = 0;
       index < visitedNodesInShortestPath.length - 1;
@@ -224,13 +223,14 @@ class App extends Component {
   };
 
   instantVisualize = () => {
+    let visitedNodes = [];
     if (!this.state.running) return;
     const startNode = this.getStartNode();
     const finishNode = this.getFinishNode();
 
     this.resetNodes();
 
-    const visitedNodes = this.getVisitedNodes(startNode, finishNode);
+    visitedNodes = this.getVisitedNodes(startNode, finishNode);
 
     if (!visitedNodes.length) return;
 

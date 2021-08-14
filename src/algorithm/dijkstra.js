@@ -7,6 +7,7 @@ export function dijkstra(grid, startNode) {
   const visitedNodes = [];
 
   startNode.distance = 0;
+
   newGrid[startNode.row][startNode.col] = { ...startNode };
   const unvisitedNodes = getAllNodes(newGrid);
 
