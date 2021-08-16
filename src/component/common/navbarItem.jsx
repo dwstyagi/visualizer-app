@@ -3,10 +3,11 @@ import React from "react";
 const NavbarItem = ({ label, disable, onClick }) => {
   function getClassName(disable) {
     let classes = "nav-link ";
-    if (disable) classes += "disabled";
+    if (disable) classes += "disabled text-muted";
 
     return classes;
   }
+  console.log(disable);
   return (
     <li className="nav-item">
       <a

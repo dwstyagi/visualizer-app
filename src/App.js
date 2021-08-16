@@ -160,11 +160,9 @@ class App extends Component {
   };
 
   resetGrid = () => {
-    this.setState({ running: false });
-
     const { start, end } = this.state;
     const grid = getGrid(this.grid, start, end);
-    this.setState({ grid });
+    this.setState({ grid, running: false });
   };
 
   resetNodes = (all = 0) => {
@@ -239,6 +237,7 @@ class App extends Component {
     let lastNode = visitedNodes[visitedNodes.length - 1];
 
     if (lastNode.finish) {
+      console.log(lastNode);
       visitedNodesInShortestPath = getVisitedNodesInOrder(lastNode);
     }
     this.instantVisualizeVisitedNodes(visitedNodes, visitedNodesInShortestPath);
@@ -330,7 +329,7 @@ class App extends Component {
 
     setTimeout(() => {
       this.setState({ visualizing: false });
-    }, walls.length);
+    }, walls.length * 50);
   };
 
   visualizeRecursiveBacktracking = () => {
