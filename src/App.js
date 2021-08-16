@@ -9,10 +9,10 @@ import { aStar } from "./algorithm/aStar";
 import { greedy } from "./algorithm/greedy";
 import { getVisitedNodesInOrder } from "./algorithm/common/visitedNodesInOrder";
 import { getRecursiveDivisionNodes } from "./maze/recursiveDivision";
-import { getGridWithWalls } from "./maze/recursiveBacktracking";
-import { getRecursiveBacktracking } from "./maze/recursiveBacktracking";
-import { getStairMaze } from "./maze/stair";
-import { getRandom } from "./maze/random";
+import { getGridWithWallsNodes } from "./maze/recursiveBacktracking";
+import { getRecursiveBacktrackingNodes } from "./maze/recursiveBacktracking";
+import { getStairMazeNodes } from "./maze/stair";
+import { getRandomNodes } from "./maze/random";
 import { getGrid, getGridWithToggledNode } from "./utils/grid";
 import { getGridWithToggleStartFinishNode } from "./utils/startNode";
 
@@ -39,48 +39,17 @@ class App extends Component {
   }
 
   handleOnAlgoSelect = (e) => {
-    const item = e.target.outerText;
     if (this.state.visualizing) return;
+    const item = e.target.outerText;
     this.setState({ Algo: item });
   };
 
   handleOnMazeSelect = (e) => {
-    const maze = e.target.outerText;
     if (this.state.visualizing) return;
+    const maze = e.target.outerText;
     this.setState({ Maze: maze });
-    if (maze === "Recursive Backtracking") {
-      this.visualizeRecursiveBacktracking();
-      return;
-    }
-    this.visualizeMaze();
+    this.visualizeMaze(maze);
   };
-
-  // setNewStartFinishNodeUtil = () => {
-  //   const { prevNode, currNode, grid, isStartNode, isFinishNode } = this.state;
-  //   const newGrid = grid.slice();
-
-  //   if (isStartNode) {
-  //     prevNode.start = false;
-  //     currNode.start = true;
-  //   }
-
-  //   if (isFinishNode) {
-  //     prevNode.finish = false;
-  //     currNode.finish = true;
-  //   }
-
-  //   newGrid[prevNode.row][prevNode.col] = { ...prevNode };
-  //   newGrid[currNode.row][currNode.col] = { ...currNode };
-
-  //   this.setState({ grid: newGrid });
-  // };
-
-  // setNewStartFinishNode = (node) => {
-  //   this.setState(
-  //     { prevNode: this.state.currNode, currNode: node },
-  //     this.setNewStartFinishNodeUtil.bind(this)
-  //   );
-  // };
 
   setNewStartFinishNode = (node) => {
     const { grid, isStartNode, isFinishNode } = this.state;
@@ -112,38 +81,38 @@ class App extends Component {
   handleMouseDown = (node) => {
     const { visualizing, grid, isStartNode, isFinishNode } = this.state;
     let newGrid;
-    if (!visualizing) {
-      if (node.start) {
-        this.setState({ isStartNode: true, currNode: node });
-        newGrid = getGridWithToggleStartFinishNode(grid, node, isStartNode);
-      } else if (node.finish) {
-        this.setState({ isFinishNode: true, currNode: node });
-        newGrid = getGridWithToggleStartFinishNode(grid, node, isFinishNode);
-      } else {
-        newGrid = getGridWithToggledNode(grid, node);
+    setTimeout(() => {
+      if (!visualizing) {
+        if (node.start) {
+          this.setState({ isStartNode: true, currNode: node });
+          newGrid = getGridWithToggleStartFinishNode(grid, node, isStartNode);
+        } else if (node.finish) {
+          this.setState({ isFinishNode: true, currNode: node });
+          newGrid = getGridWithToggleStartFinishNode(grid, node, isFinishNode);
+        } else {
+          newGrid = getGridWithToggledNode(grid, node);
+        }
+        this.setState({ grid: newGrid, isMousePressed: true });
       }
-      this.setState({ grid: newGrid, isMousePressed: true });
-    }
+    }, this.speed);
   };
 
   handleMouseEnter = (node) => {
     const { visualizing, isMousePressed, grid } = this.state;
     const { isStartNode, isFinishNode, running } = this.state;
 
-    if (!visualizing && isMousePressed) {
-      if (isStartNode) {
-        this.resetNodes();
-        this.setNewStartFinishNode(node);
-        if (running) this.instantVisualize();
-      } else if (isFinishNode) {
-        this.resetNodes();
-        this.setNewStartFinishNode(node);
-        if (running) this.instantVisualize();
-      } else {
-        const newGrid = getGridWithToggledNode(grid, node);
-        this.setState({ grid: newGrid });
+    setTimeout(() => {
+      if (!visualizing && isMousePressed) {
+        if (isStartNode || isFinishNode) {
+          this.resetNodes();
+          this.setNewStartFinishNode(node);
+          if (running) this.instantVisualize();
+        } else {
+          const newGrid = getGridWithToggledNode(grid, node);
+          this.setState({ grid: newGrid });
+        }
       }
-    }
+    }, this.speed);
   };
 
   handleMouseUp = (node) => {
@@ -221,8 +190,9 @@ class App extends Component {
   };
 
   instantVisualize = () => {
-    let visitedNodes = [];
     if (!this.state.running) return;
+
+    let visitedNodes = [];
     const startNode = this.getStartNode();
     const finishNode = this.getFinishNode();
 
@@ -237,7 +207,6 @@ class App extends Component {
     let lastNode = visitedNodes[visitedNodes.length - 1];
 
     if (lastNode.finish) {
-      console.log(lastNode);
       visitedNodesInShortestPath = getVisitedNodesInOrder(lastNode);
     }
     this.instantVisualizeVisitedNodes(visitedNodes, visitedNodesInShortestPath);
@@ -333,51 +302,53 @@ class App extends Component {
   };
 
   visualizeRecursiveBacktracking = () => {
-    const { grid } = this.state;
-
-    this.resetNodes(1);
-
-    this.setState({ visualizing: true });
-
     setTimeout(() => {
-      const newGrid = getGridWithWalls(grid);
-      this.setState({ grid: newGrid });
+      const { grid } = this.state;
+      const newGrid = getGridWithWallsNodes(grid);
 
-      const walls = getRecursiveBacktracking(grid);
+      this.resetNodes(1);
+      this.setState({ visualizing: true, grid: newGrid });
+
+      const walls = getRecursiveBacktrackingNodes(newGrid);
       this.animateRecursiveBacktracking(walls);
     }, this.speed);
   };
 
-  animateMaze = (walls) => {
+  animateMaze = (walls, maze) => {
     const { grid } = this.state;
 
-    setTimeout(() => {
-      for (let i = 0; i < walls.length; i++) {
-        const node = walls[i];
-        const { row, col } = node;
-        const newNode = { ...node, wall: false, animateWall: true };
-        setTimeout(() => {
-          grid[row][col] = newNode;
-          this.setState({ grid, visualizing: true });
-        }, i * 50);
+    for (let i = 0; i < walls.length; i++) {
+      const node = walls[i];
+      const { row, col } = node;
+      const newNode = { ...node, wall: true, animateWall: true };
+      if (maze === "Recursive Backtracking") {
+        newNode.wall = false;
+        newNode.animateWall = false;
       }
-    }, this.speed);
+      setTimeout(() => {
+        grid[row][col] = newNode;
+        this.setState({ grid });
+      }, i * 50);
+    }
 
     setTimeout(() => {
       this.setState({ visualizing: false });
-    }, walls.length * this.speed);
+    }, walls.length * 50);
   };
 
-  visualizeMaze = () => {
-    this.resetNodes(1);
-
-    if (this.state.visualizing) return;
-
-    this.setState({ visualizing: true });
-
+  visualizeMaze = (maze) => {
     setTimeout(() => {
-      const walls = this.getWallNodes();
-      this.animateMaze(walls);
+      this.resetNodes(1);
+      const { grid } = this.state;
+
+      let newGrid = JSON.parse(JSON.stringify(grid));
+      if (maze === "Recursive Backtracking")
+        newGrid = getGridWithWallsNodes(grid);
+
+      this.setState({ visualizing: true, grid: newGrid });
+
+      const walls = this.getWallNodes(maze);
+      this.animateMaze(walls, maze);
     }, this.speed);
   };
 
@@ -408,19 +379,22 @@ class App extends Component {
     return visitedNodes;
   };
 
-  getWallNodes = () => {
-    const { grid, Maze: maze } = this.state;
+  getWallNodes = (maze) => {
+    const { grid } = this.state;
     let walls;
 
     switch (maze) {
+      case "Recursive Backtracking":
+        walls = getRecursiveBacktrackingNodes(grid);
+        break;
       case "Recursive Division":
         walls = getRecursiveDivisionNodes(grid);
         break;
       case "Stair":
-        walls = getStairMaze(grid);
+        walls = getStairMazeNodes(grid);
         break;
       case "Random":
-        walls = getRandom(grid);
+        walls = getRandomNodes(grid);
         break;
 
       default:

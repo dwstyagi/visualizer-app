@@ -7,8 +7,9 @@ const Grid = ({ grid, onMouseDown, onMouseUp, onMouseEnter }) => {
       {grid.map((row, rowIdx) => {
         return (
           <div className="cur-row" key={rowIdx}>
-            {row.map((node) => (
+            {row.map((node, nodeIdx) => (
               <Node
+                Key={nodeIdx}
                 node={node}
                 onMouseDown={onMouseDown}
                 onMouseEnter={onMouseEnter}

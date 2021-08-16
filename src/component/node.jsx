@@ -1,6 +1,6 @@
 import React from "react";
 
-const Node = ({ node, onMouseDown, onMouseEnter, onMouseUp }) => {
+const Node = ({ node, Key, onMouseDown, onMouseEnter, onMouseUp }) => {
   return (
     <div
       id={getNodeId(node)}

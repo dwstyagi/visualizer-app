@@ -7,7 +7,7 @@ const NavbarItem = ({ label, disable, onClick }) => {
 
     return classes;
   }
-  console.log(disable);
+
   return (
     <li className="nav-item">
       <a

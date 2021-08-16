@@ -17,16 +17,26 @@ const Dropdown = ({ label, divider, beforeList, afterList, onSelect }) => {
         className="dropdown-menu dropdown-hover-menu"
         aria-labelledby="navbarDropdown"
       >
-        {beforeList.map((item) => (
-          <a onClick={onSelect} className="dropdown-item" href="/#">
+        {beforeList.map((item, itemId) => (
+          <a
+            key={itemId}
+            onClick={onSelect}
+            className="dropdown-item"
+            href="/#"
+          >
             {item}
           </a>
         ))}
 
         {divider && <div className="dropdown-divider"></div>}
 
-        {afterList.map((item) => (
-          <a onClick={onSelect} className="dropdown-item" href="/#">
+        {afterList.map((item, itemId) => (
+          <a
+            key={itemId}
+            onClick={onSelect}
+            className="dropdown-item"
+            href="/#"
+          >
             {item}
           </a>
         ))}

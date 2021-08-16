@@ -1,4 +1,4 @@
-export function getRandom(grid) {
+export function getRandomNodes(grid) {
   let walls = [];
   for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[row].length; col++) {
@@ -10,6 +10,5 @@ export function getRandom(grid) {
     }
   }
   walls.sort(() => Math.random() - 0.5);
-  console.log(walls);
   return walls;
 }
