@@ -14,7 +14,6 @@ import { getRecursiveBacktrackingNodes } from "./maze/recursiveBacktracking";
 import { getStairMazeNodes } from "./maze/stair";
 import { getRandomNodes } from "./maze/random";
 import { getGrid, getGridWithToggledNode } from "./utils/grid";
-import { getGridWithToggleStartFinishNode } from "./utils/startNode";
 
 class App extends Component {
   state = {
@@ -24,8 +23,6 @@ class App extends Component {
     start: { row: 10, col: 5 },
     end: { row: 10, col: 47 },
   };
-
-  speed = 10;
 
   grid = {
     rows: 20,
@@ -80,24 +77,22 @@ class App extends Component {
 
   handleMouseDown = (node) => {
     const { visualizing, grid } = this.state;
+    let newNode;
     if (visualizing) return;
 
     if (node.start) {
-      this.state.currNode = node;
-      const newNode = { ...node, start: !node.start };
-      grid[node.row][node.col] = newNode;
-      this.setState({ grid, isStartNode: true, isMousePressed: true });
+      newNode = { ...node, start: !node.start };
+      this.setState({ isStartNode: true, currNode: node });
     } else if (node.finish) {
-      this.state.currNode = node;
-      const newNode = { ...node, finish: !node.finish };
-      grid[node.row][node.col] = newNode;
-      this.setState({ grid, isFinishNode: true, isMousePressed: true });
+      newNode = { ...node, finish: !node.finish };
+      this.setState({ isFinishNode: true, currNode: node });
     } else {
-      const newNode = { ...node, wall: !node.wall };
+      newNode = { ...node, wall: !node.wall };
       if (node.wall) newNode.animateWall = false;
-      grid[node.row][node.col] = newNode;
-      this.setState({ grid, isMousePressed: true });
     }
+
+    grid[node.row][node.col] = newNode;
+    this.setState({ grid, isMousePressed: true });
   };
 
   handleMouseEnter = (node) => {
