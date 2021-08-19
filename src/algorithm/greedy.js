@@ -4,6 +4,8 @@ const { getNewGrid } = require("./common/newGrid");
 const { getUnvisitedNodeNeighbors } = require("./common/unvisitedNodeNeighbor");
 
 export function greedy(grid, startNode, finishNode) {
+  if (!startNode || !finishNode || startNode.finish) return [];
+
   const newGrid = getNewGrid(grid);
 
   startNode.distance = 0;

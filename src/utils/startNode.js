@@ -1,13 +1,12 @@
-export function getGridWithToggleStartFinishNode(grid, node, isStartNode) {
-  //   console.log(node);
+export function getGridWithToggleStartFinishNode(grid, node, isNode) {
   const { row, col } = node;
   const newGrid = JSON.parse(JSON.stringify(grid));
   const newNode = { ...node };
 
-  if (isStartNode && node.start) newNode.start = !node.start;
-  if (isStartNode && node.finish) newNode.finish = !node.finish;
+  if (isNode && node.start) newNode.start = !node.start;
+  if (isNode && node.finish) newNode.finish = !node.finish;
 
-  newGrid[row][col] = newNode;
+  newGrid[row][col] = { ...newNode };
 
   return newGrid;
 }

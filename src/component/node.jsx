@@ -16,10 +16,10 @@ const Node = ({ node, Key, onMouseDown, onMouseEnter, onMouseUp }) => {
 
 function getClassName(node) {
   let classes = "node ";
-  classes += node.start
-    ? "node-start"
-    : node.finish
+  classes += node.finish
     ? "node-finish"
+    : node.start
+    ? "node-start"
     : node.wall
     ? "node-wall"
     : node.animateWall
