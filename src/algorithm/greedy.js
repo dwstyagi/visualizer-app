@@ -26,7 +26,11 @@ export function greedy(grid, startNode, finishNode) {
 
     if (!closestNode.start && (closestNode.wall || closestNode.animateWall))
       continue;
-    if (closestNode.distance === Infinity) return visitedNodes;
+
+    if (closestNode.totalDistance === Infinity) {
+      visitedNodes.pop();
+      return visitedNodes;
+    }
 
     updateClosestNodeNeighbor(newGrid, closestNode, finishNode);
   }

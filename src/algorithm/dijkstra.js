@@ -25,7 +25,10 @@ export function dijkstra(grid, startNode) {
 
     if (!closestNode.start && (closestNode.wall || closestNode.animateWall))
       continue;
-    if (closestNode.distance === Infinity) return visitedNodes;
+    if (closestNode.distance === Infinity) {
+      visitedNodes.pop();
+      return visitedNodes;
+    }
 
     updateClosestNodeNeighbor(newGrid, closestNode);
   }

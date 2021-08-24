@@ -19,6 +19,11 @@ export function breadthFirstSearch(grid, startNode) {
 
     if (node.finish) return visitedNodes;
 
+    if (node.distance === Infinity) {
+      visitedNodes.pop();
+      return visitedNodes;
+    }
+
     const neighbors = getUnvisitedNodeNeighbors(newGrid, node);
     for (const neighbor of neighbors) {
       if (node.finish) return visitedNodes;

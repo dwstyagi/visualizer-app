@@ -1,7 +1,7 @@
 export function getVisitedNodesInOrder(node) {
   const visitedNodesInOrder = [];
 
-  while (node) {
+  while (!node.start) {
     visitedNodesInOrder.unshift(node);
     node = node.previousNode;
   }

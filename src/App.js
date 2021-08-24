@@ -48,6 +48,35 @@ class App extends Component {
     this.visualizeMaze(maze);
   };
 
+  // setNewStartFinishNodeUtil = () => {
+  //   const { grid, isStartNode, isFinishNode } = this.state;
+  //   const { prevNode, currNode } = this.state;
+
+  //   if (isStartNode) {
+  //     prevNode["start"] = false;
+  //     currNode["start"] = true;
+  //   }
+  //   if (isFinishNode) {
+  //     prevNode["finish"] = false;
+  //     currNode["finish"] = true;
+  //   }
+
+  //   grid[prevNode.row][prevNode.col] = { ...prevNode };
+  //   grid[currNode.row][currNode.col] = { ...currNode };
+
+  //   this.setState({ grid });
+  // };
+
+  // setNewStartFinishNode = (node) => {
+  //   const { prevNode, currNode } = this.state;
+  //   console.log("previous", prevNode);
+  //   console.log("current", currNode);
+
+  //   this.setState({ prevNode: currNode, currNode: node }, () => {
+  //     this.setNewStartFinishNodeUtil();
+  //   });
+  // };
+
   setNewStartFinishNode = (node) => {
     const { grid, isStartNode, isFinishNode } = this.state;
 
@@ -155,7 +184,7 @@ class App extends Component {
     const { grid } = this.state;
 
     for (
-      let index = 1;
+      let index = 0;
       index < visitedNodesInShortestPath.length - 1;
       index++
     ) {
@@ -194,8 +223,6 @@ class App extends Component {
   };
 
   visualize = () => {
-    let visitedNodes = [];
-
     if (!this.state.Algo) return;
 
     this.resetNodes();
@@ -205,9 +232,9 @@ class App extends Component {
 
     this.setState({ visualizing: true });
 
-    visitedNodes = this.getVisitedNodes(startNode, finishNode);
+    const visitedNodes = this.getVisitedNodes(startNode, finishNode);
 
-    if (!visitedNodes.length) {
+    if (!visitedNodes || !visitedNodes.length) {
       this.setState({ visualizing: false });
       return;
     }
@@ -232,6 +259,7 @@ class App extends Component {
     if (!visitedNodes || !visitedNodes.length) return;
 
     const lastNode = visitedNodes[visitedNodes.length - 1];
+
     if (lastNode.finish) {
       visitedNodesInShortestPath = getVisitedNodesInOrder(lastNode);
     }
@@ -243,7 +271,7 @@ class App extends Component {
     const { grid } = this.state;
     for (let i = 0; i <= visitedNodes.length; i++) {
       if (i === visitedNodes.length) {
-        this.instantVisualizeShortestPathNodes();
+        this.instantVisualizeShortestPathNodes(visitedNodesInShortestPath);
         return;
       }
       const node = visitedNodes[i];
@@ -251,6 +279,20 @@ class App extends Component {
       const newNode = { ...node, visited: false, instantVisited: true };
       grid[row][col] = { ...newNode };
     }
+    this.setState({ grid });
+  };
+
+  instantVisualizeShortestPathNodes = (visitedNodesInShortestPath) => {
+    if (!visitedNodesInShortestPath.length) return;
+    const { grid } = this.state;
+
+    for (let index = 0; index < visitedNodesInShortestPath.length; index++) {
+      const node = visitedNodesInShortestPath[index];
+      const { row, col } = node;
+      const newNode = { ...node, path: false, instantPath: true };
+      grid[row][col] = newNode;
+    }
+
     this.setState({ grid });
   };
 
@@ -264,20 +306,6 @@ class App extends Component {
     }
 
     return nodes;
-  };
-
-  instantVisualizeShortestPathNodes = () => {
-    const { grid } = this.state;
-    const visitedNodesInShortestPath = this.getShortesPathNodes();
-
-    for (let index = 0; index < visitedNodesInShortestPath.length; index++) {
-      const node = visitedNodesInShortestPath[index];
-      const { row, col } = node;
-      const newNode = { ...node, path: false, instantPath: true };
-      grid[row][col] = newNode;
-    }
-
-    this.setState({ grid });
   };
 
   animateRecursiveBacktracking = (walls) => {

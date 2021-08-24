@@ -9,7 +9,6 @@ const Grid = ({ grid, onMouseDown, onMouseUp, onMouseEnter }) => {
           <div className="cur-row" key={rowIdx}>
             {row.map((node, nodeIdx) => (
               <Node
-                Key={nodeIdx}
                 node={node}
                 onMouseDown={onMouseDown}
                 onMouseEnter={onMouseEnter}

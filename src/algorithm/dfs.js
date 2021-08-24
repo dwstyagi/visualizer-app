@@ -18,6 +18,11 @@ export function DepthFirstSearch(grid, startNode) {
     if (!node.start && node.wall) continue;
     if (node.finish) return visitedNodes;
 
+    if (node.distance === Infinity) {
+      visitedNodes.pop();
+      return visitedNodes;
+    }
+
     const unvisitedNeighbors = getUnvisitedNodeNeighbors(newGrid, node);
     // for (let index = unvisitedNeighbors.length - 1; index >= 0; index--) {
     //   const unvisitedNeighbor = unvisitedNeighbors[index];
