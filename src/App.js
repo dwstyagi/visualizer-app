@@ -140,9 +140,11 @@ class App extends Component {
   };
 
   handleMouseUp = (node) => {
-    const { isStartNode, isFinishNode } = this.state;
+    const { isStartNode, isFinishNode, running } = this.state;
     if (isStartNode) node.start = true;
     if (isFinishNode) node.finish = true;
+
+    if (running) this.instantVisualize();
 
     this.setState({
       isMousePressed: false,
@@ -241,10 +243,10 @@ class App extends Component {
 
     let visitedNodesInShortestPath = [];
     let lastNode = visitedNodes[visitedNodes.length - 1];
-
-    if (lastNode.finish) {
+    console.log(visitedNodes);
+    if (lastNode.finish)
       visitedNodesInShortestPath = getVisitedNodesInOrder(lastNode);
-    }
+
     this.animateVisitedNodes(visitedNodes, visitedNodesInShortestPath);
   };
 

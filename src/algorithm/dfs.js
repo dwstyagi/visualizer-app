@@ -15,12 +15,12 @@ export function DepthFirstSearch(grid, startNode) {
     visitedNodes.push(node);
     node.visited = true;
 
-    if (!node.start && node.wall) continue;
+    // if (!node.start && node.wall) continue;
     if (node.finish) return visitedNodes;
 
-    if (node.distance === Infinity) {
-      visitedNodes.pop();
-      return visitedNodes;
+    if (node.wall || node.animateWall) {
+      if (unvisitedNodes.length === 0) return visitedNodes;
+      continue;
     }
 
     const unvisitedNeighbors = getUnvisitedNodeNeighbors(newGrid, node);
