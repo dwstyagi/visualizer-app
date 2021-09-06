@@ -13,7 +13,7 @@ This project gives you basic idea behind how the path searching algorithms works
 - Greedy Best First Search - informed search
 - A\* Search - informed search
 
-**Note** - Want to make things more interesting. generate the different type of mazes in this application before or after visualizing the algorithm.
+**Note** - Want to make things more interesting. generate the different type of mazes in this application before visualizing the algorithm.
 
 ## Build Guide
 
