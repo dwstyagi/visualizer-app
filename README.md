@@ -1,5 +1,7 @@
 # Pathfinding Visualizer
 
+Project: [Link](https://visualizer-7ecf4.web.app)
+
 This project gives you basic idea behind how the path searching algorithms works in Graphs. I implemented 2 informed and 3 uninformed searches.
 
 **Informed Searches** - algorithms who were informed where actually is the destination node.<br>
